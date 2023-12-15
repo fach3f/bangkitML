@@ -5,10 +5,11 @@ from tensorflow import keras
 from keras.models import load_model
 import numpy as np
 from PIL import Image
+from google.cloud import storage
 
 app = Flask(__name__)
 app.config["ALLOWED_EXTENSIONS"] = set(['png', 'jpg', 'jpeg'])
-app.config["UPLOAD_FOLDER"] = "static/uploads"
+# app.config["UPLOAD_FOLDER"] = "static/uploads"
 
 def allowed_file(filename):
     return "." in filename and \
@@ -35,11 +36,17 @@ def prediction():
         if image and allowed_file(image.filename):
             # Save Input Image
             filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            # image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            # image_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            bucket_name = 'testmllll'
+            storage_client = storage.Client()
+            bucket = storage_client.bucket(bucket_name)
+            blob = bucket.blob(filename)
+            blob.upload_from_string(image.read(), content_type=image.content_type)
+
 
             #Pre-Processing input image
-            img = Image.open(image_path).convert("RGB")
+            img = Image.open(image).convert("RGB")
             img = img.resize((150, 150))
             img_array = np.asarray(img)
             img_array = np.expand_dims(img_array, axis=0)
@@ -53,6 +60,11 @@ def prediction():
             class_names = labels[index]
             confidence_score = prediction[0][index]
 
+            #redirect
+            external_api_url = 'https://project-bangkit-fgymidl6bq-uc.a.run.app/getExerciseByEquipment?equipment='+class_names[2:]
+            response = requests.get(external_api_url)
+            hasil_request = response.json()
+
             return jsonify({
                 "status": {
                     "code": 200,
@@ -60,7 +72,8 @@ def prediction():
                 },
                 "data": {
                     "gym_equipment_prediction": class_names[2:],
-                    "confidence": float(confidence_score)
+                    "confidence": float(confidence_score),
+                    "exercise": hasil_request
                 }
             }), 200
         else:
