@@ -1,4 +1,4 @@
-import os
+import requests
 from flask import Flask, jsonify, request
 from werkzeug.utils import secure_filename
 from tensorflow import keras
