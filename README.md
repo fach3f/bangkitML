@@ -6,8 +6,8 @@ This project demonstrates how to deploy a machine learning model locally using F
 
 Before running the project, make sure you have the following installed:
 
-Python 3.9
-pip
+- Python 3.x
+- pip
 
 ## Setup
 
@@ -42,7 +42,7 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-## Training the Model
+## Model
 
 Before deploying the model, ensure you have a pre-trained model file (model.h5) and a label file (labels.txt).
 
