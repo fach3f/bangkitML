@@ -42,6 +42,10 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+## Notes
+
+If you want to deploy to google cloud you can use bucket by changing the value of the variable bucket_name. But if you want to run locally, you can uncomment line code 12,39,40 and comment line code 8,41,42,43,44,45. Also in local you need to create folder .\static\uploads in work directory. Lastly, you need to run back-end while trying this API. If, the PORT are the same, you can change this API PORT to 5000.
+
 ## Model
 
 Before deploying the model, ensure you have a pre-trained model file (model.h5) and a label file (labels.txt).
