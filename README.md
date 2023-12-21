@@ -13,9 +13,9 @@ Before running the project, make sure you have the following installed:
 
 Clone the project repository:
 
-```
-git clone https://github.com/Fitmate/FitmateML.git
-cd FitmateML
+```bash
+git clone https://github.com/Fitmate-capstone/back-end-ml.git
+cd back-end-ml
 ```
 
 Create Virtual Environment and activate the Virtual Environment:
